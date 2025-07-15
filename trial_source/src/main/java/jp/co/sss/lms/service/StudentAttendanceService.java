@@ -73,6 +73,16 @@ public class StudentAttendanceService {
 		return attendanceManagementDtoList;
 	}
 
+	// 未入力チェック
+	// boolean型に収まる理由は、count > 0という比較演算の結果がtrue/falseになるから
+	// containts.javaに定数が定義されている、一元管理することで保守性や可読性の向上につながる
+	// 削除フラグを使う場合はContaints.DB_FLG_FALSEのように参照する
+	public boolean notEnterAttendance(Integer lmsUserId) {
+		Date today = attendanceUtil.getTrainingDate(); // 本日の日付取得
+		int count = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, today);
+		return count > 0; // 未入力があればtrue、なければfalse
+	}
+
 	/**
 	 * 出退勤更新前のチェック
 	 * 
