@@ -85,5 +85,21 @@
 			blank_time = #{blankTime}
 		WHERE student_attendance_id = #{studentAttendanceId}
 	</update>
+	
+	<select id="notEnterCount" resultType="Integer">
+		SELECT
+			COUNT(*) 
+		FROM
+			t_student_attendance as t
+		WHERE
+			lms_user_id = #{lmsUserId} 
+			AND delete_flg = #{deleteFlg}
+			AND training_date &lt; #{trainingDate}
+			AND status != 1
+			AND ( trainingStartTime = "" 
+					OR trainingEndTime = "" 
+					OR trainingStartTime IS NULL 
+					OR trainingEndTime IS NULL)	
+	</select>
 
 </mapper>
