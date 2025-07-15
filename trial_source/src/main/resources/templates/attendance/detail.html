@@ -26,6 +26,21 @@
 		</ul>
 	</th:block>
 
+	<!-- 過去の勤怠が未入力だった場合はアラート表示 -->
+	<div th:if="${notEnterAttendance}">
+		<script>
+			alert("過去日の勤怠に未入力があります");
+		</script>
+	</div>
+
+	<!-- エラーメッセージとして表示する場合 -->
+	 <th:block th:if="${notEnterAttendance}">
+		<div class="alert alert-warning">
+			過去日の勤怠に未入力があります。
+		</div>
+	 </th:block>
+
+
 	<th:block th:if="${session.loginUserDto.role == '0001'}">
 		<div class="well well-lg p10 mb10">
 			<div class="form-group">
