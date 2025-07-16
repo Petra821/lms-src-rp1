@@ -47,10 +47,49 @@
 								</th:block>
 								<td class="w140">[[${dailyAttendanceForm.dispTrainingDate}]]</td>
 								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
+								<!-- 出勤時間の入力部分 -->
 								<td class="w70">
 									<input type="text" th:name="|attendanceList[${stat.index}].trainingStartTime|"
 									th:value="${dailyAttendanceForm.trainingStartTime}" class="form-control" />
 								</td>
+
+								<!-- ただ列挙した場合、画面が崩れることを確認した -->	
+								<!-- <label>時</label>
+								<select name="hour">
+									<option value="0">0</option>
+									<option value="1">178</option>
+									<option value="2">2</option>
+								</select>
+								<label>分</label>
+								<select name="minute">
+									<option value="0">0</option>
+									<option value="1">156</option>
+									<option value="3">3</option>
+								</select> -->
+							
+								<!-- Thymeleafでループにしても同様 -->
+								<!-- <select name="hour">
+									<option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}" th:text="${i}"></option>
+								</select> -->
+
+								<!-- やはり、この形を維持したうえでプルダウンにする必要がある -->
+
+								<!-- エラーになり画面遷移できなくなる -->
+								<!-- <td class="w70">
+									<select th:name="|attendanceList[${stat.index}].trainingStartHour|" class="form-control d-inline-block w-auto" style="width: 48%; display: inline-block;">
+										<option th:each="h : ${#numbers.sequence(0,23)}"
+												th:value="${h}" th:text="${h &lt; 10 ? '0' + h : h}"
+												th:selected="${h == dailyAttendanceForm.trainingStartHour}"></option>
+									</select>
+									：
+									<select th:name="|attendanceList[${stat.index}].trainingStartMinute|" class="form-control d-inline-block w-auto" style="width: 48%; display: inline-block;">
+										<option th:each="m : ${#numbers.sequence(0,59,5)}"
+												th:value="${m}" th:text="${m &lt; 10 ? '0' + m : m}"
+												th:selected="${m == dailyAttendanceForm.trainingStartMinute}"></option>
+									</select>
+								</td> -->
+
+								<!-- 退勤時間の入力部分 -->
 								<td class="w70">
 									<input type="text" th:name="|attendanceList[${stat.index}].trainingEndTime|"
 									th:value="${dailyAttendanceForm.trainingEndTime}" class="form-control" />
@@ -82,6 +121,29 @@
 
 			</form>
 		</div>
+	</div>
+	<!-- 練習 -->
+	<div>
+		<table>
+			<tbody>
+				<tr>
+					<th>名前</th>
+					<th>　色</th>
+				</tr>
+				<tr>
+					<td>🍪</td>
+					<td>　ブルー</td>
+				</tr>
+				<tr>
+					<td>🐇</td>
+					<td>　グレー</td>
+				</tr>
+				<tr>
+					<td>🌱</td>
+					<td>　グリーン</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 </body>
