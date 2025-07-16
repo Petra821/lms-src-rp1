@@ -98,8 +98,10 @@
 			AND status != 1
 			AND ( training_start_time = '' 
 					OR training_end_time = '' 
-					OR training_start_time IS NULL 
-					OR training_end_time IS NULL)	
+<!--					コメントアウトを外すとずっと未入力判定を受ける-->
+<!--					OR training_start_time IS NULL -->
+<!--					OR training_end_time IS NULL-->
+					)	
 	</select>
 
 </mapper>

@@ -80,6 +80,7 @@ public class StudentAttendanceService {
 	public boolean notEnterAttendance(Integer lmsUserId) {
 		Date today = attendanceUtil.getTrainingDate(); // 本日の日付取得
 		int count = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, today);
+		// System.out.println("未入力箇所" + count);   // デバックに使用した。未入力件数を表示させる
 		return count > 0; // 未入力があればtrue、なければfalse
 	}
 
