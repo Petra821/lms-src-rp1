@@ -36,7 +36,7 @@
 					</thead>
 					<tbody>
 						<th:block th:each="dailyAttendanceForm, stat : *{attendanceForm.attendanceList}">
-							<tr>
+							<td>
 								<th:block>
 									<input type="hidden" th:name="|attendanceList[${stat.index}].isToday|" th:value="${dailyAttendanceForm.isToday}" />
 									<input type="hidden" th:name="|attendanceList[${stat.index}].studentAttendanceId|" th:value="${dailyAttendanceForm.studentAttendanceId}" />
@@ -49,28 +49,32 @@
 								<td class="w300">[[${dailyAttendanceForm.sectionName}]]</td>
 								<!-- 出勤時間の入力部分 -->
 								<td class="w70">
-									<input type="text" th:name="|attendanceList[${stat.index}].trainingStartTime|"
+									<!-- <input type="text" th:name="|attendanceList[${stat.index}].trainingStartTime|"
 									th:value="${dailyAttendanceForm.trainingStartTime}" class="form-control" />
-								</td>
+								</td> -->
 
 								<!-- ただ列挙した場合、画面が崩れることを確認した -->	
-								<!-- <label>時</label>
-								<select name="hour">
+								<!-- <select name="hour" class="form-control">
 									<option value="0">0</option>
 									<option value="1">178</option>
 									<option value="2">2</option>
 								</select>
-								<label>分</label>
-								<select name="minute">
+								<select name="minute" class="form-control">
 									<option value="0">0</option>
 									<option value="1">156</option>
 									<option value="3">3</option>
-								</select> -->
+								</select>
+							</td> -->
 							
 								<!-- Thymeleafでループにしても同様 -->
-								<!-- <select name="hour">
-									<option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}" th:text="${i}"></option>
-								</select> -->
+									<select name="hour" class="form-control">
+										<option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}" th:text="${i}"></option>
+									</select>
+									:
+									<select name="min" class="form-control">
+										<option th:each="i : ${#numbers.sequence(0,59)}" th:value="${i}" th:text="${i}"></option>
+									</select>
+								</td>
 
 								<!-- やはり、この形を維持したうえでプルダウンにする必要がある -->
 
@@ -94,13 +98,16 @@
 									<input type="text" th:name="|attendanceList[${stat.index}].trainingEndTime|"
 									th:value="${dailyAttendanceForm.trainingEndTime}" class="form-control" />
 								</td>
+								<!-- 中抜け時間（プルダウン表示となっている） -->
 								<td class="w80">
 									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}" th:value="${blankTime.key}" th:inlne="text" class="form-control" 
 											th:selected="${blankTime.key == dailyAttendanceForm.blankTime}">[[${blankTime.value}]]</option>
 									</select>
 								</td>
+								<!-- ステータス -->
 								<td class="w70">[[${dailyAttendanceForm.statusDispName}]]</td>
+								<!-- 備考 -->
 								<td class="w240">
 									<input type="text" th:name="|attendanceList[${stat.index}].note|" th:value="${dailyAttendanceForm.note}" class="form-control"></input>
 								</td>

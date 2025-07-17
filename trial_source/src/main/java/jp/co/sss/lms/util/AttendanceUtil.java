@@ -103,6 +103,34 @@ public class AttendanceUtil {
 	}
 
 	/**
+	 * プルダウン用の選択肢：時間（0～23）
+	 * 
+	 * @return 勤務時間
+	 */
+	public LinkedHashMap<Integer, String> getHour() {
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		for (int i = 0; i < 24; i++) {
+			map.put(i, String.valueOf(i)); // map.put（int型,String型）となるように型変換
+			// map.put(i, String.format("%02d", i));  こちらとの表示の違いを確認する
+		}
+		return map;
+	}
+
+	/**
+	 * プルダウン用の選択肢：分（0～59）
+	 * 
+	 * @return 勤務時間
+	 */
+	public LinkedHashMap<Integer, String> getMinutes() {
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		for (int i = 0; i < 60; i++) {
+			map.put(i, String.valueOf(i)); // map.put（int型,String型）となるように型変換
+			// map.put(i, String.format("%02d", i));　こちらとの表示の違いを確認する
+		}
+		return map;
+	}
+
+	/**
 	 * 休憩時間取得
 	 * 
 	 * @return 休憩時間
