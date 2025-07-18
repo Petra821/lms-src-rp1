@@ -313,16 +313,22 @@ public class StudentAttendanceService {
 			}
 			tStudentAttendance.setLmsUserId(lmsUserId);
 			tStudentAttendance.setAccountId(loginUserDto.getAccountId());
-			// 出勤時刻整形
-			String startTime = String.format("%02d:%02d",
+			// 出勤時刻整形(未入力時の対応追加)
+			String startTime = "";
+			if (dailyAttendanceForm.getTrainingStartHour() != null && dailyAttendanceForm.getTrainingStartMinute() != null) {
+				startTime = String.format("%02d:%02d",
 				dailyAttendanceForm.getTrainingStartHour(),
 				dailyAttendanceForm.getTrainingStartMinute());
-				tStudentAttendance.setTrainingStartTime(startTime);
-			// 退勤時刻整形
-			String endTime = String.format("%02d:%02d",
+			}
+			tStudentAttendance.setTrainingStartTime(startTime);
+			// 退勤時刻整形(未入力時の対応追加)
+			String endTime = "";
+			if (dailyAttendanceForm.getTrainingEndHour() != null && dailyAttendanceForm.getTrainingEndMinute() != null) {
+				endTime = String.format("%02d:%02d",
 				dailyAttendanceForm.getTrainingEndHour(),
 				dailyAttendanceForm.getTrainingEndMinute());
-				tStudentAttendance.setTrainingEndTime(endTime);
+			}		
+			tStudentAttendance.setTrainingEndTime(endTime);
 			// 中抜け時間
 			tStudentAttendance.setBlankTime(dailyAttendanceForm.getBlankTime());
 			// ステータス判定用（出勤時間・退勤時間）

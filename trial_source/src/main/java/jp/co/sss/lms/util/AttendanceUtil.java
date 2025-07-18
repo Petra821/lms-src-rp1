@@ -109,6 +109,7 @@ public class AttendanceUtil {
 	 */
 	public LinkedHashMap<Integer, String> getHour() {
 		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
 		for (int i = 0; i < 24; i++) {
 			map.put(i, String.format("%02d", i));  // map.put（int型,String型）にあわせて型変換と0始まりに対応
 		}
@@ -122,8 +123,9 @@ public class AttendanceUtil {
 	 */
 	public LinkedHashMap<Integer, String> getMinutes() {
 		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
 		for (int i = 0; i < 60; i++) {
-		map.put(i, String.format("%02d", i));  // map.put（int型,String型）にあわせて型変換と0始まりに対応
+			map.put(i, String.format("%02d", i));  // map.put（int型,String型）にあわせて型変換と0始まりに対応
 		}
 		return map;
 	}
