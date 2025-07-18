@@ -314,20 +314,21 @@ public class StudentAttendanceService {
 			tStudentAttendance.setLmsUserId(lmsUserId);
 			tStudentAttendance.setAccountId(loginUserDto.getAccountId());
 			// 出勤時刻整形
-			// String startTime = String.format("%02d:%02d",
-			// 	dailyAttendanceForm.getTrainingStartHour(),
-			// 	dailyAttendanceForm.getTrainingStartMinute());
-			// 	tStudentAttendance.setTrainingStartTime(startTime);
-			TrainingTime trainingStartTime = null;
-			trainingStartTime = new TrainingTime(dailyAttendanceForm.getTrainingStartTime());
-			tStudentAttendance.setTrainingStartTime(trainingStartTime.getFormattedString());
+			String startTime = String.format("%02d:%02d",
+				dailyAttendanceForm.getTrainingStartHour(),
+				dailyAttendanceForm.getTrainingStartMinute());
+				tStudentAttendance.setTrainingStartTime(startTime);
 			// 退勤時刻整形
-			TrainingTime trainingEndTime = null;
-			trainingEndTime = new TrainingTime(dailyAttendanceForm.getTrainingEndTime());
-			tStudentAttendance.setTrainingEndTime(trainingEndTime.getFormattedString());
+			String endTime = String.format("%02d:%02d",
+				dailyAttendanceForm.getTrainingEndHour(),
+				dailyAttendanceForm.getTrainingEndMinute());
+				tStudentAttendance.setTrainingEndTime(endTime);
 			// 中抜け時間
 			tStudentAttendance.setBlankTime(dailyAttendanceForm.getBlankTime());
-			// 遅刻早退ステータス
+			// ステータス判定用（出勤時間・退勤時間）
+			TrainingTime trainingStartTime = new TrainingTime(startTime);
+			TrainingTime trainingEndTime = new TrainingTime(endTime);
+			// 遅刻早退ステータス判定
 			if ((trainingStartTime != null || trainingEndTime != null)
 					&& !dailyAttendanceForm.getStatusDispName().equals("欠席")) {
 				AttendanceStatusEnum attendanceStatusEnum = attendanceUtil
