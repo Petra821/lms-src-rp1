@@ -4,6 +4,29 @@ table form, .ib {
 	display: inline-block;
 }
 
+/* .form-control {
+	display: inline-block;
+	width: 48px;
+	min-width: 48px;
+	margin-right: 2px;
+} */
+
+/* 例: プルダウンを横並びにする */
+/* .form-control.d-inline-block.w-auto {
+  display: inline-block;
+  width: 48px;
+  min-width: 48px;
+  margin-right: 2px;
+} */
+
+/* 例: プルダウンを横並びにする */
+.form-control.d-inline-block.w-auto {
+  display: inline-block;
+  width: 65px;
+  min-width: 48px;
+  margin-right: 2px;
+}
+
 div.contract {
 	height: 10em;
 	overflow-y: scroll;
