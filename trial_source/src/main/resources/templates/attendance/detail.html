@@ -26,18 +26,14 @@
 		</ul>
 	</th:block>
 
-	<!-- 過去の勤怠が未入力時にアラート表示 -->
-	<div th:if="${notEnterAttendance}">
-		<script>
-			alert("過去日の勤怠に未入力があります");
-		</script>
-	</div>
-
-	<!-- エラーメッセージとして表示する場合 -->
+	<!-- 過去の勤怠が未入力時にアラート表示＆エラーメッセージ表示 -->
 	 <th:block th:if="${notEnterAttendance}">
 		<div class="alert alert-warning">
 			過去日の勤怠に未入力があります。
 		</div>
+		<script>
+			alert("過去日の勤怠に未入力があります");
+		</script>
 	 </th:block>
 
 

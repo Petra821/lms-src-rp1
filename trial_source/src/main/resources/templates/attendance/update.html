@@ -50,24 +50,20 @@
 								<!-- 出勤時間 -->
 								<td class="w180">
 								<select th:name="|attendanceList[${stat.index}].trainingStartHour|" class="form-control d-inline-block w-auto">
-									<oprion value="">--</oprion> <!-- 未選択用 -->
 									<option th:each="h : ${attendanceForm.hourOptions}" th:value="${h.key}" th:text="${h.value}" th:selected="${h.key == dailyAttendanceForm.trainingStartHour}"></option>
 								</select>
 								:
 								<select th:name="|attendanceList[${stat.index}].trainingStartMinute|" class="form-control d-inline-block w-auto">
-									<oprion value="">--</oprion> <!-- 未選択用 -->
 									<option th:each="m : ${attendanceForm.minuteOptions}" th:value="${m.key}" th:text="${m.value}" th:selected="${m.key == dailyAttendanceForm.trainingStartMinute}"></option>
 								</select>
 								</td>
-								<!-- 退勤時間も同様 -->
+								<!-- 退勤時間 -->
 								<td class="w180">
 								<select th:name="|attendanceList[${stat.index}].trainingEndHour|" class="form-control d-inline-block w-auto">
-									<oprion value="">--</oprion> <!-- 未選択用 -->
 									<option th:each="h : ${attendanceForm.hourOptions}" th:value="${h.key}" th:text="${h.value}" th:selected="${h.key == dailyAttendanceForm.trainingEndHour}"></option>
 								</select>
 								:
 								<select th:name="|attendanceList[${stat.index}].trainingEndMinute|" class="form-control d-inline-block w-auto">
-									<oprion value="">--</oprion> <!-- 未選択用 -->
 									<option th:each="m : ${attendanceForm.minuteOptions}" th:value="${m.key}" th:text="${m.value}" th:selected="${m.key == dailyAttendanceForm.trainingEndMinute}"></option>
 								</select>
 								</td>

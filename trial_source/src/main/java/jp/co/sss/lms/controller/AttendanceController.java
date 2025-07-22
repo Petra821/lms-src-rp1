@@ -50,8 +50,8 @@ public class AttendanceController {
 		// 未入力件数チェック
 		// ログインユーザーのIDを取得し、Serviceに渡している
 		// DTOにはユーザーから入力された値やセッション情報が一時的に格納されているためここから取得する
-		boolean notEnter = studentAttendanceService.notEnterAttendance(loginUserDto.getLmsUserId());
-		model.addAttribute("notEnterAttendance", notEnter);
+		boolean notEnterAttendance = studentAttendanceService.notEnterAttendance(loginUserDto.getLmsUserId());
+		model.addAttribute("notEnterAttendance", notEnterAttendance);
 
 		return "attendance/detail";
 	}
