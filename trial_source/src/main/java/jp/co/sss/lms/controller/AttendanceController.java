@@ -16,6 +16,7 @@ import jp.co.sss.lms.dto.LoginUserDto;
 import jp.co.sss.lms.form.AttendanceForm;
 import jp.co.sss.lms.form.DailyAttendanceForm;
 import jp.co.sss.lms.service.StudentAttendanceService;
+import jp.co.sss.lms.util.AttendanceUtil;
 import jp.co.sss.lms.util.Constants;
 import jp.co.sss.lms.util.MessageUtil;
 
@@ -34,6 +35,8 @@ public class AttendanceController {
 	private LoginUserDto loginUserDto;
 	@Autowired
 	private MessageUtil messageUtil;
+	@Autowired
+	private AttendanceUtil attendanceUtil;
 
 	/**
 	 * 勤怠管理画面 初期表示
@@ -238,6 +241,11 @@ public class AttendanceController {
 
 		// エラーがある場合は入力画面に戻る
 		if (hasError) {
+			// 選択肢を再設定
+			attendanceForm.setHourOptions(attendanceUtil.getHour());
+			attendanceForm.setMinuteOptions(attendanceUtil.getMinutes());
+			attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
+			
 			model.addAttribute("attendanceForm", attendanceForm);
 			model.addAttribute("startHourError", startHourError);
 			model.addAttribute("startMinuteError", startMinuteError);

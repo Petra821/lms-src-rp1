@@ -18,6 +18,15 @@
 		</th:block>
 	</th:block>
 
+	<!-- エラーメッセージ表示領域 -->
+	<th:block th:if="${errorList != null and !#lists.isEmpty(errorList)}" id="error">
+		<ul style="padding-left: 0; list-style: none;">
+			<li th:each="error : ${errorList}">
+				<span th:text="'*' + '&nbsp;' + ${error}" class="help-inline error"></span>
+			</li>
+		</ul>
+	</th:block>
+
 	<div class="row">
 		<div class="bs-component col-sm-12">
 
