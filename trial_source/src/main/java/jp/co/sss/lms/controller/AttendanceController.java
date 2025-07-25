@@ -228,7 +228,7 @@ public class AttendanceController {
 					startMinuteError[i] = true;
 					endHourError[i] = true;
 					endMinuteError[i] = true;
-					errorList.add(messageUtil.getMessage("attendance.trainingTimeRange", new String[]{String.valueOf(i + 1)}));
+					errorList.add(messageUtil.getMessage("attendance.trainingTimeRange"));
 					hasError = true;
 				}
 				// f. 中抜け時間が勤務時間を超える（単位をそろえた変数が使えるスコープ内でやると良い）
