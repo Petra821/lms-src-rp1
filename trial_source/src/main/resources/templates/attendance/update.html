@@ -86,7 +86,8 @@
 								</td>
 								<!-- 中抜け時間 -->
 								<td class="w120">
-									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].blankTime|" 
+											th:class="${blankTimeError[stat.index]} ? 'form-control errorInput' : 'form-control'">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}" th:value="${blankTime.key}" th:inlne="text" class="form-control" 
 											th:selected="${blankTime.key == dailyAttendanceForm.blankTime}">[[${blankTime.value}]]</option>
 									</select>

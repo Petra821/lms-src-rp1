@@ -2,7 +2,9 @@ package jp.co.sss.lms.controller;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -136,11 +138,13 @@ public class AttendanceController {
 		boolean[] startMinuteError = new boolean[attendanceForm.getAttendanceList().size()];
 		boolean[] endHourError = new boolean[attendanceForm.getAttendanceList().size()];
 		boolean[] endMinuteError = new boolean[attendanceForm.getAttendanceList().size()];
+		boolean[] blankTimeError = new boolean[attendanceForm.getAttendanceList().size()]; // 中抜け時間用
 		
 		model.addAttribute("startHourError", startHourError);
 		model.addAttribute("startMinuteError", startMinuteError);
 		model.addAttribute("endHourError", endHourError);
 		model.addAttribute("endMinuteError", endMinuteError);
+		model.addAttribute("blankTimeError", blankTimeError); // 中抜け時間用
 
 		return "attendance/update";
 	}
@@ -164,11 +168,15 @@ public class AttendanceController {
 		boolean[] startMinuteError = new boolean[attendanceForm.getAttendanceList().size()];
 		boolean[] endHourError = new boolean[attendanceForm.getAttendanceList().size()];
 		boolean[] endMinuteError = new boolean[attendanceForm.getAttendanceList().size()];
+		boolean[] blankTimeError = new boolean[attendanceForm.getAttendanceList().size()]; // 中抜け時間用も追加
 		
 		// AttendanceForm.getAttendanceList()をループ
 		// 各項目ごとに条件をチェックし、エラーがあればエラーメッセージリストに追加
 		// エラーが一つでもあれば、attendance/update画面にエラー付きで返す
-		List<String> errorList = new ArrayList<>();
+		// エラーメッセージの重複を防ぐためListではなくSetを使用
+		// ↓対応不要だった
+		// 各バリデーションもSet.addに変更し、画面に渡す際にList化して渡すとThymeLeaf側の変更不要で便利
+		Set<String> errorList = new LinkedHashSet<>();
 		for (int i = 0; i < attendanceForm.getAttendanceList().size(); i++) {
 			DailyAttendanceForm daily = attendanceForm.getAttendanceList().get(i);
 
@@ -225,6 +233,7 @@ public class AttendanceController {
 				}
 				// f. 中抜け時間が勤務時間を超える（単位をそろえた変数が使えるスコープ内でやると良い）
 				if (daily.getBlankTime() != null && (daily.getBlankTime() > (end - start))) {
+					blankTimeError[i] = true; // 中抜け時間も赤枠強調表示
 					errorList.add(messageUtil.getMessage("attendance.blankTimeError"));
 					hasError = true;
 				}
@@ -251,6 +260,7 @@ public class AttendanceController {
 			model.addAttribute("startMinuteError", startMinuteError);
 			model.addAttribute("endHourError", endHourError);
 			model.addAttribute("endMinuteError", endMinuteError);
+			model.addAttribute("blankTimeError", blankTimeError); // 中抜け時間用
 			model.addAttribute("errorList", errorList);
 			return "attendance/update";
 		}
