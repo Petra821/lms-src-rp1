@@ -3,15 +3,11 @@ package jp.co.sss.lms.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 
 import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
@@ -280,104 +276,6 @@ public class StudentAttendanceService {
 
 		return attendanceForm;
 	}
-
-	/**
-	 * 勤怠登録・入力チェック
-	 * 
-	 * @param attendanceForm
-	 * @return
-	 * @throws ParseException
-	 */
-	public String check(AttendanceForm attendanceForm) throws ParseException {
-		
-		// 入力チェック用
-		boolean hasError = false;
-		boolean[] startHourError = new boolean[attendanceForm.getAttendanceList().size()];
-		boolean[] startMinuteError = new boolean[attendanceForm.getAttendanceList().size()];
-		boolean[] endHourError = new boolean[attendanceForm.getAttendanceList().size()];
-		boolean[] endMinuteError = new boolean[attendanceForm.getAttendanceList().size()];
-		boolean[] blankTimeError = new boolean[attendanceForm.getAttendanceList().size()]; // 中抜け時間用も追加
-		
-		// AttendanceForm.getAttendanceList()をループ
-		// 各項目ごとに条件をチェックし、エラーがあればエラーメッセージリストに追加
-		// エラーが一つでもあれば、attendance/update画面にエラー付きで返す
-		// エラーメッセージの重複を防ぐためListではなくSetを使用
-		// ↓対応不要だった
-		// 各バリデーションもSet.addに変更し、画面に渡す際にList化して渡すとThymeLeaf側の変更不要で便利
-		Set<String> errorList = new LinkedHashSet<>();
-		for (int i = 0; i < attendanceForm.getAttendanceList().size(); i++) {
-			DailyAttendanceForm daily = attendanceForm.getAttendanceList().get(i);
-
-			// a. 備考文字数
-			if (daily.getNote() != null && daily.getNote().length() > 100) {
-				errorList.add(messageUtil.getMessage("maxlength", new String[]{"備考", "100"}));
-			}
-
-			// b. 出勤時間が一部未入力（時間と分の片方のみ入力）
-			boolean startHour = daily.getTrainingStartHour() != null;
-			boolean startMinute = daily.getTrainingStartMinute() != null;
-			if ((startHour && !startMinute) || (!startHour && startMinute)) {
-				if (!startHour) {
-					startHourError[i] = true;
-				}
-				if (!startMinute) {
-					startMinuteError[i] = true;
-				}
-				errorList.add(messageUtil.getMessage("input.invalid", new String[]{"出勤時間"}));
-				hasError = true;
-			}
-			
-			// c. 退勤時間が一部未入力（時間と分の片方のみ入力）
-			boolean endHour = daily.getTrainingEndHour() != null;
-			boolean endMinute = daily.getTrainingEndMinute() != null;
-			if ((endHour && !endMinute) || (!endHour && endMinute)) {
-				if (!endHour) {
-					endHourError[i] = true;
-				}
-				if (!endMinute) {
-					endMinuteError[i] = true;
-				}
-				errorList.add(messageUtil.getMessage("input.invalid", new String[]{"退勤時間"}));
-				hasError = true;
-			}
-			// d. 退勤時間のみ入力（出勤時間が未入力の状態で退勤時間を入力）
-			if (!startHour && !startMinute && (endHour || endMinute)) {
-				startHourError[i] = true;
-				startMinuteError[i] = true;
-				errorList.add(messageUtil.getMessage("attendance.punchInEmpty"));
-				hasError = true;
-			}
-			// e. 出勤時間 > 退勤時間（退勤時間より出勤時間の方が遅い）単位を分にそろえて比較
-			if (startHour && startMinute && endHour && endMinute) {
-				int start = daily.getTrainingStartHour() * 60 + daily.getTrainingStartMinute();
-				int end = daily.getTrainingEndHour() * 60 + daily.getTrainingEndMinute();
-				if (start >= end) {
-					startHourError[i] = true;
-					startMinuteError[i] = true;
-					endHourError[i] = true;
-					endMinuteError[i] = true;
-					errorList.add(messageUtil.getMessage("attendance.trainingTimeRange"));
-					hasError = true;
-				}
-				// f. 中抜け時間が勤務時間を超える（単位をそろえた変数が使えるスコープ内でやると良い）
-				if (daily.getBlankTime() != null && (daily.getBlankTime() > (end - start))) {
-					blankTimeError[i] = true; // 中抜け時間も赤枠強調表示
-					errorList.add(messageUtil.getMessage("attendance.blankTimeError"));
-					hasError = true;
-				}
-			}
-		}
-		// エラーがある場合は入力画面に戻る
-		if (hasError) {
-			// 選択肢を再設定
-			attendanceForm.setHourOptions(attendanceUtil.getHour());
-			attendanceForm.setMinuteOptions(attendanceUtil.getMinutes());
-			attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
-
-			return ?;
-		}
-	}
-
 
 	/**
 	 * 勤怠登録・更新処理
