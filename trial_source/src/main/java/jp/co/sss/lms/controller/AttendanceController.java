@@ -242,8 +242,9 @@ public class AttendanceController {
 			// メモ
 			// new Object[]としていたが、getMessageメソッドの引数型が(String,String[])になっているためnew String[]とした
 			// これに伴い、e.の部分でint型のiを引数に入れられなくなったため、String.valueOf()を使用した
+			// 結局添え字は使わないことにした
 
-			// HTMLも追記が必要（CSSを生かした仕組みにしたい）
+			// HTMLも追記が必要（CSSを生かした仕組みにしたい）→OK
 			// この条件分岐がどこから情報を持ってきて何と比較しているのか、あとですべて追う
 			
 		}
