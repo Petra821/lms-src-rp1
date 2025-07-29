@@ -170,11 +170,6 @@ public class AttendanceController {
 		boolean[] blankTimeError = new boolean[attendanceForm.getAttendanceList().size()]; // 中抜け時間用も追加
 		
 		// AttendanceForm.getAttendanceList()をループ
-		// 各項目ごとに条件をチェックし、エラーがあればエラーメッセージリストに追加
-		// エラーが一つでもあれば、attendance/update画面にエラー付きで返す
-		// エラーメッセージの重複を防ぐためListではなくSetを使用
-		// ↓対応不要だった
-		// 各バリデーションもSet.addに変更し、画面に渡す際にList化して渡すとThymeLeaf側の変更不要で便利
 		Set<String> errorList = new LinkedHashSet<>();
 		for (int i = 0; i < attendanceForm.getAttendanceList().size(); i++) {
 			DailyAttendanceForm daily = attendanceForm.getAttendanceList().get(i);
@@ -238,15 +233,6 @@ public class AttendanceController {
 					hasError = true;
 				}
 			}
-			
-			// メモ
-			// new Object[]としていたが、getMessageメソッドの引数型が(String,String[])になっているためnew String[]とした
-			// これに伴い、e.の部分でint型のiを引数に入れられなくなったため、String.valueOf()を使用した
-			// 結局添え字は使わないことにした
-
-			// HTMLも追記が必要（CSSを生かした仕組みにしたい）→OK
-			// この条件分岐がどこから情報を持ってきて何と比較しているのか、あとですべて追う
-			
 		}
 
 		// エラーがある場合は入力画面に戻る
@@ -270,7 +256,7 @@ public class AttendanceController {
 		// 更新
 		String message = studentAttendanceService.update(attendanceForm);
 		model.addAttribute("message", message);
-		// 一覧の再取S得
+		// 一覧の再取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
