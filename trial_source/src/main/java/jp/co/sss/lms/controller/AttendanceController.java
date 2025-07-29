@@ -1,7 +1,6 @@
 package jp.co.sss.lms.controller;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -183,6 +182,7 @@ public class AttendanceController {
 			// a. 備考文字数
 			if (daily.getNote() != null && daily.getNote().length() > 100) {
 				errorList.add(messageUtil.getMessage("maxlength", new String[]{"備考", "100"}));
+				hasError = true;
 			}
 
 			// b. 出勤時間が一部未入力（時間と分の片方のみ入力）
@@ -270,7 +270,7 @@ public class AttendanceController {
 		// 更新
 		String message = studentAttendanceService.update(attendanceForm);
 		model.addAttribute("message", message);
-		// 一覧の再取得
+		// 一覧の再取S得
 		List<AttendanceManagementDto> attendanceManagementDtoList = studentAttendanceService
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
